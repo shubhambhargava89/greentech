@@ -1,0 +1,71 @@
+{% extends 'user_home.html' %}
+{% load static %}
+{% block title %}Address{% endblock title %}
+
+
+{% block main-content%}
+<hr>
+<div class="container my-5">
+    <div class="row">
+        <!-- Navigation Div -->
+        <div class="col-md-3">
+            <div class="nav-sidebar" style="background-color: #fff;
+        border-radius: 10px;
+        box-shadow: 0px 0px 10px 0px rgba(0,0,0,0.1);
+        padding: 20px;">
+                <div class="text-center">
+                    <h3 style="font-size: 24px;
+            margin-bottom: 20px;">Welcome <span class="text-capitalize">{{ request.user }}</span></h3>
+                </div>
+                <a href="{% url 'new_address' %}" class="btn btn-primary btn-block">New Address</a>
+                <a href="{% url 'existing_address' %}" class="btn btn-secondary btn-block mt-3">Existing Address</a>
+            </div>
+        </div>
+  <div class="col-md-9">
+    <div class="form-container" style="background-color: #fff;
+        border-radius: 10px;
+        box-shadow: 0px 0px 10px 0px rgba(0,0,0,0.1);
+        padding: 30px;">
+        <h2 class="text-center mb-3" style="color: blue;">Address List</h2>
+           <div class="row">
+    {% for ad in add %}
+        {% if forloop.counter0|divisibleby:2 %} <!-- Check if the counter is divisible by 2 -->
+            </div><div class="row"> <!-- Close the previous row and start a new row -->
+        {% endif %}
+        <div class="col-sm-6">
+            <div class="card address-card">
+                <div class="card-body">
+                    <h3>Address {{ forloop.counter }}</h3>
+                    <p>Name: {{ ad.name }}</p>
+                    <p>Address1: {{ ad.address1 }}</p>
+                    <p>Address2: {{ ad.address2 }}</p>
+                    <p>Contact: {{ ad.contact }}</p>
+                    <p>City: {{ ad.city }}</p>
+                    <p>State: {{ ad.state }}</p>
+                    <p>Pin Code: {{ ad.pincode }}</p>
+                </div>
+            </div>
+        </div>
+    {% endfor %}
+</div>
+    </div>
+ </div>
+</div>
+
+</div>
+<hr>
+
+{% ifequal error "no" %}
+<script>
+    alert("Profile Update Successful");
+    window.location = ('{% url 'user_index' %}')
+</script>
+{% endifequal %}
+
+{% ifequal error "yes" %}
+<script>
+    alert("Something went wrong, Try Again...");
+</script>
+{% endifequal %}
+
+{% endblock main-content%}

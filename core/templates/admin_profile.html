@@ -1,0 +1,54 @@
+{% extends 'admin_home.html' %}
+{% load static %}
+{% block main-content%}
+
+
+
+<hr>
+<h1 class="text-center" style="color:green">Admin Profile</h1>
+<form class="container mt-5" method="post" enctype="multipart/form-data">
+    {% csrf_token %}
+<!--  1st Row  -->
+    <div class="form-row">
+        <div class="form-group col-md-6">
+            <label><b> First Name </b></label>
+            <input type="text" class="form-control" name="fname" placeholder="Enter First Name" value="{{adm.user.first_name}}" required>
+        </div>
+
+        <div class="form-group col-md-6">
+            <label><b> Last Name </b></label>
+            <input type="text" class="form-control" name="lname" placeholder="Enter Last Name" value="{{adm.user.last_name}}" required>
+        </div>
+    </div>
+
+    <!--  2nd Row  -->
+    <div class="form-row">
+        <div class="form-group col-md-6">
+        <label><b> Contact Number </b></label>
+            <input type="number" class="form-control" name="contact" placeholder="Enter Contact Number" value="{{adm.contact_number}}" required>
+        </div>
+
+        <div class="form-group col-md-6">
+             <label><b> Email ID </b></label>
+            <input type="email" class="form-control" readonly name="email" placeholder="Enter Email ID" value="{{adm.user.email}}" required>
+        </div>
+    </div>
+
+   <input type="submit" value="Submit" class="btn btn-success my-3" style="width:200px">
+</form>
+<hr>
+
+{% ifequal error "no" %}
+<script>
+    alert("Profile Update Successful");
+    window.location = ('{% url 'admin_index' %}')
+</script>
+{% endifequal %}
+
+{% ifequal error "yes" %}
+<script>
+    alert("Something went wrong, Try Again...");
+</script>
+{% endifequal %}
+
+{% endblock main-content%}

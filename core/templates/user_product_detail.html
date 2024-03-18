@@ -1,0 +1,48 @@
+{% extends 'user_home.html' %}
+{% load static %}
+
+{% block title %}Product Detail{% endblock title %}
+
+{% block custom_css %}
+   <link rel="stylesheet" href="{% static 'css/user_product_detail.css' %}">
+{% endblock custom_css %}
+
+
+{% block main-content %}
+    <hr>
+    <!-- Product Detail Section -->
+    <div class="container my-5 product-detail-container">
+        <div class="row">
+            <div class="col-lg-6">
+                <img src="{{ product.product_image.url }}" alt="{{ product.name }}" class="img-fluid product-image">
+            </div>
+            <div class="col-lg-6 product-details">
+                <h2>{{ product.name }}</h2>
+                <p>Price: Rs. {{ product.price }}</p>
+                <p>Description: {{ product.description }}</p>
+                <!-- Add any other product details you want to display -->
+                <!-- You can customize this section as per your requirements -->
+
+                <div class="btn-container">
+                    <a href="{% url 'add_to_cart' product.id %}" class="btn btn-primary add-to-cart-btn" data-product-id="{{ product.id }}">Add to Cart</a>
+                    <a href="{% url 'add_to_cart' product.id %}" class="btn btn-success buy-now-btn">Buy Now</a>
+                </div>
+            </div>
+        </div>
+    </div>
+    <hr>
+{% endblock main-content %}
+
+{% block custom_js %}
+    <!-- Add any custom JavaScript -->
+    <script>
+        $(document).ready(function() {
+            // Add to Cart button click event
+            $('.add-to-cart-btn').click(function() {
+                var productId = $(this).data('product-id');
+                // Implement your add to cart logic here, such as sending an AJAX request to the server
+                console.log('Add to Cart clicked for product ID: ' + productId);
+            });
+        });
+    </script>
+{% endblock custom_js %}

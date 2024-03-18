@@ -1,0 +1,65 @@
+{% extends 'admin_home.html' %}
+{% block title %}Admin Order Status{% endblock title %}
+
+{% block main-content %}
+  <div class="container my-5">
+    <div class="row">
+        <!-- Navigation Div -->
+        <div class="col-md-3">
+            <div class="nav-sidebar" style="background-color: #fff;
+        border-radius: 10px;
+        box-shadow: 0px 0px 10px 0px rgba(0,0,0,0.1);
+        padding: 20px;">
+                <div class="text-center">
+                    <h3 style="font-size: 24px;
+            margin-bottom: 20px;">Welcome <span class="text-capitalize">{{ request.user }}</span></h3>
+                </div>
+                <a href="{% url 'new_address' %}" class="btn btn-primary btn-block">Orders</a>
+            </div>
+        </div>
+        <div class="col-md-9">
+    <div class="form-container" style="background-color: #fff;
+        border-radius: 10px;
+        box-shadow: 0px 0px 10px 0px rgba(0,0,0,0.1);
+        padding: 30px;">
+        <h2 class="text-center mb-3" style="color: blue;">Orders</h2>
+        <div class="row">
+            {% for i in data %}
+            <div class="col-sm-12 mb-3">
+                <div class="card address-card">
+                    <div class="row no-gutters"> <!-- Added row and removed gutters -->
+                        <div class="col-md-3">
+                            <img src="{{i.product.product_image.url}}" alt="" srcset="" class="img-fluid" height="150" width="150"> <!-- Adjusted column size -->
+                        </div>
+                        <div class="col-md-7">
+                            <div class="card-body">
+                                <p>Name: {{i.user.first_name}}</p>
+                                <p>Product: {{i.product.name}}</p>
+                                <p>Quantity: {{i.quantity}}</p>
+                                <p>Name: {{i.user.first_name}}</p>
+                                <p>Date: {{i.ordered_date}}</p>
+                                <p>Order Status: {{i.status}}</p>
+                                <form action="{% url 'change_status' i.id %}" method="post">
+    {% csrf_token %}
+    <div class="form-group">
+        <label for="new_status">Change Status:</label>
+        <select class="form-control" id="new_status" name="new_status">
+            <option value="Accepted">Accepted</option>
+            <option value="Packed">Packed</option>
+            <option value="On The Way">On The Way</option>
+            <option value="Delivered">Delivered</option>
+        </select>
+    </div>
+    <button type="submit" class="btn btn-primary">Change Status</button>
+</form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+</div>
+    </div></div>
+{% endblock main-content %}

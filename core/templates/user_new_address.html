@@ -1,0 +1,146 @@
+{% extends 'user_home.html' %}
+{% load static %}
+
+{% block custom_css%}
+<link rel="stylesheet" href="{% static 'css/new_address.css' %}">
+{% endblock custom_css%}
+
+{% block main-content%}
+<hr>
+ <div class="container my-5">
+    <div class="row">
+        <!-- Navigation Div -->
+        <div class="col-md-3">
+            <div class="nav-sidebar" style="background-color: #fff;
+        border-radius: 10px;
+        box-shadow: 0px 0px 10px 0px rgba(0,0,0,0.1);
+        padding: 20px;">
+                <div class="text-center">
+                    <h3 style="font-size: 24px;
+            margin-bottom: 20px;">Welcome <span class="text-capitalize">{{ request.user }}</span></h3>
+                </div>
+                <a href="{% url 'new_address' %}" class="btn btn-primary btn-block">New Address</a>
+                <a href="{% url 'existing_address' %}" class="btn btn-secondary btn-block mt-3">Existing Address</a>
+            </div>
+        </div>
+        <!-- User Profile Form -->
+        <div class="col-md-9">
+            <div class="form-container" style=" background-color: #fff;
+        border-radius: 10px;
+        box-shadow: 0px 0px 10px 0px rgba(0,0,0,0.1);
+        padding: 30px;">
+                <h1 class="text-center mb-5" style="color:green">Add New Address</h1>
+                <form method="post" enctype="multipart/form-data">
+                    {% csrf_token %}
+                    <!-- 1st Row -->
+                    <div class="row mb-4">
+                        <div class="col-md-12">
+                            <label for="fullname" class="form-label"><b>Full Name</b></label>
+                            <input type="text" class="form-control" id="fullname" name="fullname" placeholder="Enter Full Name" required>
+                        </div>
+                    </div>
+                    <!-- 2nd Row -->
+                    <div class="row mb-4">
+                        <div class="col-md-6">
+                            <label for="address1" class="form-label"><b>Address 1</b></label>
+                            <input type="text" class="form-control" id="address1" name="address1" placeholder="Enter Address line 1" required>
+                        </div>
+                        <div class="col-md-6">
+                            <label for="address2" class="form-label"><b>Address 2</b></label>
+                            <input type="text" class="form-control" id="address2" name="address2" placeholder="Enter Address line 2" required>
+                        </div>
+                    </div>
+
+                    <!-- 3rd Row -->
+                    <div class="row mb-4">
+                        <div class="col-md-6">
+                            <label for="contact" class="form-label"><b>Contact Number</b></label>
+                            <input type="tel" class="form-control" id="contact" name="contact" placeholder="Enter Contact Number" required>
+                        </div>
+                        <div class="col-md-6">
+                            <label for="city" class="form-label"><b>City</b></label>
+                            <input type="text" class="form-control" id="city" name="city" placeholder="Enter Your City" required>
+                        </div>
+                    </div>
+                    <!-- 4th Row -->
+                    <div class="row mb-4">
+                        <div class="col-md-6">
+                            <label for="state"><b>State</b></label>
+                            <select class="form-control" id="state" name="state" required>
+                                <option value="">Select State</option>
+                                <option value="an">Andaman and Nicobar Islands</option>
+                                <option value="ap">Andhra Pradesh</option>
+                                <option value="arp">Arunachal Pradesh</option>
+                                <option value="a">Assam</option>
+                                <option value="b">Bihar</option>
+                                <option value="c">Chandigarh</option>
+                                <option value="ch">Chhattisgarh</option>
+                                <option value="g">Goa</option>
+                                <option value="gj">Gujarat</option>
+                                <option value="hp">Himachal Pradesh</option>
+                                <option value="h">Haryana</option>
+                                <option value="jnk">Jammu and Kashmir</option>
+                                <option value="jk">Jharkhand</option>
+                                <option value="ka">Karnataka</option>
+                                <option value="k">Kerala</option>
+                                <option value="l">Ladakh</option>
+                                <option value="mp">Madhya Pradesh</option>
+                                <option value="mh">Maharashtra</option>
+                                <option value="ma">Manipur</option>
+                                <option value="me">Meghalaya</option>
+                                <option value="mi">Mizoram</option>
+                                <option value="n">Nagaland</option>
+                                <option value="o">Odisha</option>
+                                <option value="p">Pondicherry</option>
+                                <option value="pj">Punjab, India</option>
+                                <option value="rj">Rajasthan</option>
+                                <option value="s">Sikkim</option>
+                                <option value="tn">Tamil Nadu</option>
+                                <option value="tl">Telangana</option>
+                                <option value="ti">Tripura</option>
+                                <option value="up">Uttar Pradesh</option>
+                                <option value="uk">Uttarakhand</option>
+                                <option value="wb">West Bengal</option>
+
+
+
+
+        <!-- Add more options as needed -->
+    </select>
+</div>
+                        <div class="col-md-6">
+                            <label for="pincode" class="form-label"><b>Pincode</b></label>
+                            <input type="number" class="form-control" id="pincode" name="pincode" placeholder="Enter Your Pincode"  required>
+                        </div>
+                    </div>
+
+
+                    <div class="text-center">
+                        <button type="submit" class="btn btn-success" style="width: 200px;">Submit</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+<hr>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+
+{% ifequal error "no" %}
+<script>
+    alert("Address Add Successful");
+    window.location = ('{% url 'existing_address' %}')
+</script>
+{% endifequal %}
+
+{% ifequal error "yes" %}
+<script>
+    alert("Something went wrong, Try Again...");
+</script>
+{% endifequal %}
+
+{% endblock main-content%}

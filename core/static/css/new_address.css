@@ -1,0 +1,22 @@
+
+    .nav-sidebar a {
+        display: block;
+        padding: 10px 0;
+        text-decoration: none;
+        color: inherit; /* Inherit text color from parent */
+    }
+
+    .nav-sidebar a:hover {
+        background-color: #f8f9fa;
+    }
+
+    .gender-label {
+        margin-right: 10px;
+    }
+
+    @media (max-width: 768px) {
+        .form-container,
+        .nav-sidebar {
+            padding: 20px;
+        }
+    }

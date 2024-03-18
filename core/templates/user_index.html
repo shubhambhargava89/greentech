@@ -1,0 +1,117 @@
+{% extends 'user_home.html' %}
+{% load static %}
+{% block custom_css %}
+<link rel="stylesheet" type="text/css" href="{% static 'css/style.css' %}">
+{% endblock custom_css %}
+
+{% block banner_slider %}
+<div class="slideshow-container" >
+    <div class="mySlides fade">
+        <img src="{% static 'images/banner_1.jpg' %}" style="width:100%; height:auto;">
+    </div>
+
+    <div class="mySlides fade">
+        <img src="{% static 'images/banner_2.jpg' %}" style="width:100%; height:auto;">
+    </div>
+
+    <div class="mySlides fade">
+        <img src="{% static 'images/banner_3.jpg' %}" style="width:100%; height:auto;">
+    </div>
+
+    <div class="mySlides fade">
+        <img src="{% static 'images/banner_4.jpg' %}" style="width:100%; height:auto;">
+    </div>
+</div>
+<br>
+
+<div style="text-align:center">
+  <span class="dot"></span>
+  <span class="dot"></span>
+  <span class="dot"></span>
+  <span class="dot"></span>
+</div>
+<script>
+let slideIndex = 0;
+showSlides();
+
+function showSlides() {
+  let i;
+  let slides = document.getElementsByClassName("mySlides");
+  let dots = document.getElementsByClassName("dot");
+  for (i = 0; i < slides.length; i++) {
+    slides[i].style.display = "none";
+  }
+  slideIndex++;
+  if (slideIndex > slides.length) {slideIndex = 1}
+  for (i = 0; i < dots.length; i++) {
+    dots[i].className = dots[i].className.replace(" active", "");
+  }
+  slides[slideIndex-1].style.display = "block";
+  dots[slideIndex-1].className += " active";
+  setTimeout(showSlides, 5000); // Change image every 2 seconds
+}
+</script>
+{% endblock banner_slider %}
+
+{% block main-content %}
+<br>
+<div class="small-container">
+  <div class="row row-2">
+    <h2>All Products</h2>
+    <select>
+      <option value="">Default Shorting</option>
+      <option value="">Sort by price(Low to High)</option>
+      <option value="">Sort by price(High to Low)</option>
+      <option value="">Short by popularity</option>
+      <option value="">Short by rating</option>
+      <option value="">Short by sale</option>
+    </select>
+  </div>
+<div class="row">
+        {% for product in products %}
+            <div class="col-4">
+              <img src="{{ product.product_image.url }}" alt="{{ product.name }}">
+                <h4>{{ product.name }}</h4>
+
+
+              <div class="rating">
+
+                        <label><i class="fa fa-star text-danger"></i></label>
+                                <label><i class="fa fa-star text-danger"></i></label>
+                                <label ><i class="fa fa-star text-danger"></i></label>
+                                <label ><i class="fa fa-star text-warning"></i></label>
+                                <label ><i class="fa fa-star text-warning"></i></label>
+
+            </div>
+
+                <p>Price: Rs.{{ product.price }}</p>
+
+            </div>
+        {% endfor %}
+    </div>
+
+
+  <div class="page-btn">
+    <span>1</span>
+    <span>2</span>
+    <span>3</span>
+    <span>4</span>
+    <span>&#8594;</span>
+  </div>
+</div>
+
+<!-- js for toggle menu -->
+<script>
+  var MenuItems = document.getElementById('MenuItems');
+  MenuItems.style.maxHeight = '0px';
+
+  function menutoggle() {
+    if (MenuItems.style.maxHeight == '0px') {
+      MenuItems.style.maxHeight = '200px';
+    } else {
+      MenuItems.style.maxHeight = '0px';
+    }
+  }
+</script>
+
+{% endblock main-content %}

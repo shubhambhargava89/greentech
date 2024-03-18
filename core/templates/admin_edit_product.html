@@ -1,0 +1,116 @@
+{% extends 'admin_home.html' %}
+{% load static %}
+{% block title %}Edit Product{% endblock title %}
+{% block main-content%}
+
+<style>
+    #image-preview {
+        width=300px;
+        height=300px;
+        margin-top: 10px;
+    }
+</style>
+<hr>
+<h1 class="text-center" style="color:green">Edit Product</h1>
+
+<div class="container">
+    <div class="row">
+        <div class="col-sm-8">
+            <form class="container mt-5" method="post" enctype="multipart/form-data">
+    {% csrf_token %}
+<!--          1st row      -->
+ <div class="form-row">
+        <div class="form-group col-md-6">
+            <label><b> Name </b></label>
+            <input type="text" class="form-control" name="pname" value="{{pro.name}}" required>
+        </div>
+
+        <div class="form-group col-md-6">
+            <label><b> Price </b></label>
+            <input type="number" class="form-control" name="price" value="{{pro.price}}" required>
+        </div>
+    </div>
+
+ <!--  2nd Row  -->
+    <div class="form-row">
+        <div class="form-group col-md-6">
+        <label><b> Rating </b></label>
+            <input type="number" class="form-control" name="rating" value="{{pro.rating}}" required>
+        </div>
+
+        <div class="form-group col-md-6">
+    <label for="category"><b>Category</b></label>
+    <select class="form-control" id="category" readonly name="category" required>
+        <option value="">Select a category</option>
+        <option value="ss">Solar Streetlight</option>
+        <option value="on">Solar On Grid</option>
+        <option value="of">Solar Off Grid</option>
+        <option value="sp">Solar Pump</option>
+        <option value="swh">Solar Water Heaters</option>
+        <!-- Add more options as needed -->
+    </select>
+</div>
+    </div>
+
+<!--  3rd Row  -->
+    <div class="form-row">
+        <div class="form-group col-md-12">
+        <label><b> Description </b></label>
+            <input type="text" class="form-control" name="detail" value="{{pro.description}}" required>
+        </div>
+    </div>
+ <!--  4th Row  -->
+    <div class="form-row">
+        <div class="form-group col-md-6">
+        <label><b> Stock Quantity </b></label>
+            <input type="number" class="form-control" name="quantity" value="{{pro.quantity}}" required>
+        </div>
+
+        <div class="form-group col-md-6">
+            <label><b> Image </b></label>
+            <input type="file" class="form-control" name="image" accept="image/*" onchange="previewImage(event)" >
+        </div>
+    </div>
+ <input type="submit" value="Submit" class="btn btn-success my-3" style="width:200px">
+                </form>
+        </div>
+<div id="image-container" class="col-sm-4 mt-5 text-center">
+    <img src="{{pro.product_image.url}}" id="image-preview" width="300px" height="300px">
+</div>
+    </div>
+</div>
+<hr>
+
+<script>
+function previewImage(event) {
+    const file = event.target.files[0];
+    const image = document.getElementById('image-preview');
+    const reader = new FileReader();
+
+    reader.onload = function() {
+        image.src = reader.result;
+    };
+
+    if (file) {
+        reader.readAsDataURL(file);
+    } else {
+        image.src = "#";
+    }
+}
+</script>
+<script>
+    document.getElementById("category").value = "{{pro.category}}";
+</script>
+{% ifequal error "no" %}
+<script>
+    alert("Product Edit Successful");
+    window.location = ('{% url 'admin_edit_product' %}')
+</script>
+{% endifequal %}
+
+{% ifequal error "yes" %}
+<script>
+    alert("Invalid Login Credentials, Try Again...");
+</script>
+{% endifequal %}
+{% endblock main-content%}

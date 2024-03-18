@@ -1,0 +1,33 @@
+{% extends 'user_home.html' %}
+{% load static %}
+
+{% block title %}Product Detail{% endblock title %}
+    <title>Shopping Cart</title>
+  {% block custom_css %}
+<link rel="stylesheet" href="{% static 'css/cart.css' %}">
+      {% endblock custom_css %}
+
+{% block main-content %}
+    <div class="container1">
+        <h1>Shopping Cart</h1>
+        {% if cart_items %}
+            {% for item in cart_items %}
+                <div class="cart-item">
+                    <img src="{{ item.product.product_image.url }}" alt="{{ item.product.name }}">
+                    <p>{{ item.product.name }} - Rs. {{ item.product.price }} x
+                        <a href="{% url 'minus_cart' item.id %}">-</a>
+                        <span class="quantity">{{ item.quantity }}</span>
+                        <a href="{% url 'plus_cart' item.id %}">+</a>
+                        <a href="{% url 'remove_from_cart' item.id %}">Remove</a>
+                    </p>
+                </div>
+            {% endfor %}
+            <p class="total-price">Price: Rs. {{ price }}</p>
+        <p class="total-price">Shipping Charges: Rs. 70.00</p>
+        <p class="total-price">Total Price: Rs. {{ total_price }}</p>
+            <a href="{% url 'checkout' %}" class="place-order-btn">Place Order</a>
+        {% else %}
+            <p class="empty-cart-msg">Your cart is empty.</p>
+        {% endif %}
+    </div>
+{% endblock main-content %}

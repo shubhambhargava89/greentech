@@ -1,0 +1,132 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block title %}Contact Us{% endblock title %}
+{% block custom_css %}
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.6.3/css/all.css">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+
+<style>
+    .mydiv:hover{
+    box-shadow: 0 0 20px 0 rgba(0,0,0,0.3);
+    transform: translateY(-20px);
+    }
+</style>
+{% endblock custom_css %}
+
+{% block main-content %}
+<hr>
+<div class="container" style="justify-content: center; align-items: center; display: flex;margin-top:-10px">
+    <img src="{% static 'images/logo.jpg' %}" alt="Centered Image" style="width:200px; height=150px; ">
+</div>
+
+<div class="container mt-5">
+
+   <div class="text-center" style="margin-top:-50px">
+            <span style="font-weight:bold; font-size:30px">
+                <span style="color:green">Green</span>
+                <span style="color:Black">Tech</span>
+                <span style="color:green">Energy</span>
+            </span>
+        </div>
+    <br><br>
+    <div class="row mt-5">
+        <div class="col-sm-3 mydiv">
+            <h4 class="text-center"><i class="fas fa-phone-square"></i> Contact</h4>
+            <p class="text-center">+91 9552477356</p>
+        </div>
+
+        <div class="col-sm-3 mydiv">
+            <h4 class="text-center"><i class="fas fa-envelope"></i> Email ID</h4>
+            <p class="text-center">greentechenergy27@gmail.com</p>
+        </div>
+
+        <div class="col-sm-3 mydiv">
+            <h4 class="text-center"><i class="fas fa-address-card"></i> Address</h4>
+            <p class="text-center">Pune, Maharashtra</p>
+        </div>
+
+        <div class="col-sm-3 mydiv">
+            <h4 class="text-center"><i class="far fa-clock"></i> Timing</h4>
+            <p class="text-center">10:00 A.M. to 9:00 P.M.</p>
+        </div>
+    </div>
+</div>
+<br><br>
+<hr>
+<h1 class="text-center" style="color:green">Enquiry Form</h1>
+<form class="container mt-5" method="post" enctype="multipart/form-data">
+    {% csrf_token %}
+<!--  1st Row  -->
+    <div class="form-row">
+        <div class="form-group col-md-6">
+            <label><b> First Name </b></label>
+            <input type="text" class="form-control" name="fname" placeholder="Enter First Name" required>
+        </div>
+
+        <div class="form-group col-md-6">
+            <label><b> Last Name </b></label>
+            <input type="text" class="form-control" name="lname" placeholder="Enter Last Name" required>
+        </div>
+    </div>
+
+    <!--  2nd Row  -->
+    <div class="form-row">
+        <div class="form-group col-md-6">
+        <label><b> Contact Number </b></label>
+            <input type="number" class="form-control" name="contact" placeholder="Enter Contact Number" required>
+        </div>
+
+        <div class="form-group col-md-6">
+             <label><b> Gender </b></label>
+            <div style="border:1px solid lightgrey; padding:6px; border-radius:6px">
+                <div class="custom-control custom-radio custom-control-inline">
+                    <input type="radio" id="customRadioInline1" class="custom-control-input" name="gender" value="Male">
+                    <label class="custom-control-label" for="customRadioInline1">Male</label>
+                </div>
+                <div class="custom-control custom-radio custom-control-inline">
+                    <input type="radio" id="customRadioInline2" class="custom-control-input" name="gender" value="Female">
+                    <label class="custom-control-label" for="customRadioInline2">Female</label>
+                </div>
+                <div class="custom-control custom-radio custom-control-inline">
+                    <input type="radio" id="customRadioInline3" class="custom-control-input" name="gender" value="Others">
+                    <label class="custom-control-label" for="customRadioInline3">Others</label>
+                </div>
+            </div>
+        </div>
+    </div>
+
+<!--  3rd Row  -->
+    <div class="form-row">
+        <div class="form-group col-md-12">
+        <label><b> Email ID </b></label>
+            <input type="email" class="form-control" name="email" placeholder="Enter Email ID" required>
+        </div>
+    </div>
+
+    <!--  4th Row  -->
+    <div class="form-row">
+        <div class="form-group col-md-12">
+        <label><b> About </b></label>
+            <input type="text" class="form-control" name="about" placeholder="Enter Your Enquiry" required>
+        </div>
+    </div>
+<input type="submit" value="Submit" class="btn btn-success my-3" style="width:200px">
+</form>
+<hr>
+
+{% ifequal error "no" %}
+<script>
+    alert("Submit Successful");
+    window.location = ('{% url 'contact' %}')
+</script>
+{% endifequal %}
+
+{% ifequal error "yes" %}
+<script>
+    alert("Something went wrong, Try Again...");
+</script>
+{% endifequal %}
+
+
+{% endblock main-content %}
+

@@ -1,0 +1,245 @@
+body {
+            font-family: Arial, sans-serif;
+            background-color: #f8f9fa;
+            margin: 0;
+            padding: 0;
+            color: #555; /* Text color for better readability */
+        }
+
+        .container1 {
+            max-width: 900px; /* Increased container width */
+            margin: 20px auto;
+            padding: 20px;
+            background-color: #fff;
+            border-radius: 10px;
+            box-shadow: 0 0 20px rgba(0, 0, 0, 0.1); /* Increased shadow */
+        }
+
+        h1 {
+            text-align: center;
+            margin-bottom: 30px;
+            color: #007bff;
+            text-shadow: 2px 2px 2px rgba(0, 0, 0, 0.1); /* Added text shadow */
+        }
+
+        .cart-item {
+            margin-bottom: 20px;
+            border: 1px solid #ddd; /* Softer border */
+            border-radius: 10px; /* Slightly rounder corners */
+            overflow: hidden;
+            padding: 15px; /* Increased padding */
+            background-color: #f9f9f9; /* Softer background */
+        }
+
+        .cart-item img {
+            max-width: 100px; /* Slightly larger product image */
+            float: left;
+            margin-right: 15px; /* Increased margin */
+            border-radius: 10px; /* Rounded corners for images */
+            box-shadow: 0 0 5px rgba(0, 0, 0, 0.1); /* Subtle shadow */
+        }
+
+        .cart-item p {
+            margin: 0;
+            color: #333;
+            font-size: 18px; /* Slightly larger font size */
+        }
+
+        .cart-item a {
+            text-decoration: none;
+            color: #007bff;
+            margin-left: 10px;
+            font-weight: bold;
+        }
+
+        .quantity {
+            margin: 0 15px;
+            font-size: 20px; /* Larger font size */
+            color: #333;
+        }
+
+        .total-price {
+            margin-top: 30px; /* Increased margin */
+            font-weight: bold;
+            font-size: 24px; /* Larger font size */
+            text-align: right;
+            color: #007bff;
+        }
+
+        .place-order-btn {
+            display: inline-block;
+            margin-top: 40px; /* Increased margin */
+            padding: 15px 30px; /* Increased padding */
+            background-color: #007bff;
+            color: #fff;
+            border: none;
+            border-radius: 5px;
+            text-align: center;
+            text-decoration: none;
+            font-size: 20px; /* Larger font size */
+            transition: background-color 0.3s ease;
+        }
+
+        .place-order-btn:hover {
+            background-color: #0056b3;
+        }
+
+        /* Additional CSS for the shopping cart page */
+
+        /* Styling for links */
+        a {
+            color: #007bff;
+            text-decoration: none;
+            transition: color 0.3s ease;
+        }
+
+        a:hover {
+            color: #0056b3;
+        }
+
+        /* Styling for buttons */
+        .btn {
+            display: inline-block;
+            padding: 10px 20px;
+            background-color: #007bff;
+            color: #fff;
+            border: none;
+            border-radius: 5px;
+            text-align: center;
+            text-decoration: none;
+            font-size: 16px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+
+        .btn:hover {
+            background-color: #0056b3;
+        }
+
+        /* Styling for the place order button */
+        .place-order-btn {
+            display: inline-block;
+            padding: 15px 30px;
+            background-color: #28a745; /* Green color for positive action */
+            color: #fff;
+            border: none;
+            border-radius: 5px;
+            text-align: center;
+            text-decoration: none;
+            font-size: 20px;
+            transition: background-color 0.3s ease;
+        }
+
+        .place-order-btn:hover {
+            background-color: #218838; /* Darker green on hover */
+        }
+
+        /* Styling for empty cart message */
+        .empty-cart-msg {
+            text-align: center;
+            font-size: 18px;
+            color: #888;
+        }
+
+
+        /* Additional CSS for the shopping cart page */
+
+        /* Styling for headers */
+        h2 {
+            font-size: 24px;
+            color: #333;
+            margin-bottom: 15px;
+        }
+
+        /* Styling for cart item details */
+        .cart-item-details {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        /* Styling for product name */
+        .product-name {
+            font-weight: bold;
+            margin-bottom: 5px;
+        }
+
+        /* Styling for price */
+        .price {
+            color: #28a745; /* Green color for positive */
+            font-weight: bold;
+        }
+
+        /* Styling for quantity controls */
+        .quantity-controls {
+            display: flex;
+            align-items: center;
+        }
+
+        /* Styling for quantity buttons */
+        .quantity-btn {
+            background-color: #007bff;
+            color: #fff;
+            border: none;
+            border-radius: 50%;
+            width: 30px;
+            height: 30px;
+            font-size: 18px;
+            line-height: 1;
+            text-align: center;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+
+        .quantity-btn:hover {
+            background-color: #0056b3;
+        }
+
+        /* Styling for remove button */
+        .remove-btn {
+            color: #dc3545; /* Red color for negative action */
+            font-size: 16px;
+            cursor: pointer;
+            transition: color 0.3s ease;
+        }
+
+        .remove-btn:hover {
+            color: #c82333; /* Darker red on hover */
+        }
+        /* Additional CSS for the shopping cart page */
+
+        /* Styling for empty cart icon */
+        .empty-cart-icon {
+            font-size: 64px;
+            color: #888;
+            margin-bottom: 20px;
+        }
+
+        /* Styling for responsive layout */
+        @media (max-width: 576px) {
+            .container {
+                padding: 15px;
+            }
+
+            .cart-item img {
+                max-width: 60px;
+                margin-right: 10px;
+            }
+
+            .total-price {
+                font-size: 16px;
+            }
+
+            .checkout-btn {
+                padding: 10px 20px;
+                font-size: 16px;
+            }
+
+            .empty-cart-icon {
+                font-size: 48px;
+            }
+
+            .empty-cart-msg {
+                font-size: 16px;
+            }
+        }
