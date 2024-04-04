@@ -37,6 +37,7 @@
                                 <p>Product: {{op.product.name}}</p>
                                 <p>Quantity: {{op.quantity}}</p>
                                 <p>Date: {{op.ordered_date}}</p>
+                                <p>Payment_ID: {{op.payment_id}}</p>
                                 <p>Order Status: {{op.status}}</p>
                                 {% if op.status == 'Accepted' %}
                                 <div class="progress">
@@ -54,7 +55,21 @@
                                 <div class="progress">
                                     <div class="progress-bar" role="progressbar" style="width: 100%;" aria-valuenow="100" aria-valuemin="0" aria-valuemax="100"></div>
                                 </div>
+                                <a href="{% url 'download_invoice' op.id %}" class="btn btn-success mt-3">Download Invoice</a>
                                 {% endif %}
+
+
+
+                                <form action="{% url 'cancel_order' op.id %}" method="post">
+                                {% csrf_token %}
+                                {% if op.status != 'Delivered' %}
+                                    {% if op.status != 'Cancelled' %}
+                                        <button class="btn btn-danger mt-3" >Cancel Order</button>
+                                    {% endif %}
+                                {% endif %}
+                                </form>
+
+
                             </div>
                         </div>
                     </div>

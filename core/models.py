@@ -77,6 +77,10 @@ STATUS_CHOICES = (
     ('Cancel','Cancel')
 )
 
+PAYMENT_METHOD_CHOICES = [
+        ('COD', 'Cash on Delivery'),
+        ('RAZORPAY', 'Pay with Razorpay'),
+    ]
 
 class OrderPlaced(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE)
@@ -91,3 +95,14 @@ class OrderPlaced(models.Model):
         return self.user.first_name
 
 
+class Feedback(models.Model):
+    firstname = models.CharField(max_length=100)
+    lastname = models.CharField(max_length=100)
+    mobile = models.CharField(max_length=15, null=True)
+    gender = models.CharField(max_length=10, null=True)
+    mail = models.CharField(max_length=100)
+    about = models.TextField()
+    creationdate = models.DateField()
+
+    def __str__(self):
+        return self.firstname

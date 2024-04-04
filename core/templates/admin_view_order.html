@@ -38,7 +38,9 @@
                                 <p>Quantity: {{i.quantity}}</p>
                                 <p>Name: {{i.user.first_name}}</p>
                                 <p>Date: {{i.ordered_date}}</p>
+                                <p>Payment_ID: {{i.payment_id}}</p>
                                 <p>Order Status: {{i.status}}</p>
+
                                 <form action="{% url 'change_status' i.id %}" method="post">
     {% csrf_token %}
     <div class="form-group">

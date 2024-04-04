@@ -37,7 +37,7 @@
 					</div>
 
 					<div class="wrap-input100 validate-input" data-validate = "Please enter password">
-						<input class="input100" type="password" name="pass" placeholder="Password">
+						<input class="input100" type="password" pattern="(?=.*[A-Z])(?=.*[a-z])(?=.*[@#$%^&+*!=])(?=.*\d).{8,}" title="Must contain at least one number and one uppercase and lowercase letter, and at least 8 or more characters" name="pass" placeholder="Password">
 						<span class="focus-input100"></span>
 					</div>
 
@@ -73,21 +73,14 @@
 
 <hr>
 
-
-
-
-
-{% ifequal error "no" %}
-<script>
-    alert("login Successful");
-    window.location = ('{% url 'user_index' %}')
-</script>
-{% endifequal %}
-
-{% ifequal error "yes" %}
-<script>
-    alert("Invalid Login Credentials, Try Again...");
-</script>
-{% endifequal %}
-
+{% if error %}
+    <script>
+        {% if error == "no" %}
+            alert("Login successful");
+            window.location.href = "{% url 'user_index' %}";
+        {% else %}
+            alert("{{ error }}");
+        {% endif %}
+    </script>
+{% endif %}
 {% endblock main-content %}

@@ -1,6 +1,6 @@
 {% extends 'admin_home.html' %}
 {% load static %}
-{% block title%} View Users {% endblock title%}
+{% block title%} View Feedback {% endblock title%}
 {% block main-content%}
 <hr>
 <div class="container">
@@ -12,7 +12,7 @@
         <th>Email ID</th>
         <th>Contact</th>
         <th>Gender</th>
-        <th>Action</th>
+        <th>About</th>
     </tr>
     </thead>
 
@@ -20,12 +20,13 @@
     {% for i in data %}
     <tr style="background-color: #DEB887 ">
         <td>{{forloop.counter}}</td>
-        <td>{{i.user.first_name}} {{i.user.last_name}}</td>
-        <td>{{i.user.email}}</td>
-        <td>{{i.contact_number}}</td>
+        <td>{{i.firstname}} {{i.lastname}}</td>
+        <td>{{i.mail}}</td>
+        <td>{{i.mobile}}</td>
         <td>{{i.gender}}</td>
+        <td>{{i.about}}</td>
 
-        <td><a href="{% url 'delete_user' i.user.id %}" class="btn btn-danger btn-sm" onclick="return confirm('Are you Sure??')">Delete</a></td>
+<!--        <td><a href="" class="btn btn-danger btn-sm" onclick="return confirm('Are you Sure??')">Delete</a></td>-->
     </tr>
     {% endfor %}
     </tbody>

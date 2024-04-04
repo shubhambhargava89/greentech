@@ -14,7 +14,10 @@ from django.views import View
 from razorpay import Client
 from django.http import JsonResponse
 import razorpay
-
+from django.http import HttpResponse
+from django.template.loader import render_to_string
+from django.utils.text import slugify
+from reportlab.pdfgen import canvas
 
 # from reportlab.lib import colors
 # from reportlab.lib.pagesizes import letter
@@ -81,7 +84,9 @@ def admin_index(request):
     rcount = Enquiry.objects.all().count()
     scount = CustomerLogin.objects.all().count()
     pcount = Product.objects.all().count()
-    d = {'rcount': rcount, 'scount': scount, 'pcount': pcount}
+    ocount = OrderPlaced.objects.all().count()
+    fcount = Feedback.objects.all().count()
+    d = {'rcount': rcount, 'scount': scount, 'pcount': pcount, 'ocount': ocount, 'fcount':fcount}
     return render(request, 'admin_index.html', d)
 
 
@@ -122,6 +127,20 @@ def change_status(request, oid):
 
     # Redirect to the same page or any other page as per your requirement
     return redirect('admin_view_order')
+
+
+def cancel_order(request,oid):
+    if request.method == 'POST':
+        try:
+            order = OrderPlaced.objects.get(id=oid)
+            order.status = 'Cancelled'
+            order.save()
+            messages.success(request, 'Order cancelled successfully')
+        except OrderPlaced.DoesNotExist:
+            messages.error(request, 'Cannot cancel delivered order')
+    else:
+        return redirect('orders')
+
 
 def admin_edit_product(request, pid):
     if not request.user.is_authenticated:
@@ -170,12 +189,20 @@ def admin_view_enquiry(request):
     return render(request, 'admin_view_enquiry.html', d)
 
 
+def view_feedback(request):
+    if not request.user.is_authenticated:
+        return redirect('admin_login')
+    data = Feedback.objects.all()
+    d = {'data': data}
+    return render(request, 'view_feedback.html', d)
+
+
 def admin_view_product(request):
     if not request.user.is_authenticated:
         return redirect('admin_login')
     data = Product.objects.all()
     d = {'data': data}
-    return render(request, 'admin_view_product.html', d)
+    return render(request, 'admin_product_dashboard.html', d)
 
 
 def admin_add_product(request):
@@ -203,17 +230,17 @@ def admin_add_product(request):
 def admin_login(request):
     error = ""
     if request.method == 'POST':
-        u = request.POST['username']
-        p = request.POST['pass']
+        u = request.POST.get('username')
+        p = request.POST.get('pass')
         user = authenticate(username=u, password=p)
-        try:
+        if user is not None:
             if user.is_staff:
                 login(request, user)
-                error = "no"
+                error = "no"  # Successful login
             else:
-                error = "yes"
-        except:
-            error = "yes"
+                error = "Invalid username or password"  # Non-staff user
+        else:
+            error = "Account Not Present"  # Authentication failed
     d = {'error': error}
     return render(request, 'admin_login.html', d)
 
@@ -238,6 +265,27 @@ def user_login(request):
             error = "yes"
     d = {'error': error}
     return render(request, 'user_login.html', d)
+
+
+def add_feedback(request):
+    if not request.user.is_authenticated:
+        return redirect('user_login')
+    error = ""
+    if request.method == 'POST':
+        f = request.POST['fname']
+        ln = request.POST['lname']
+        c = request.POST['contact']
+        g = request.POST['gender']
+        e = request.POST['email']
+        a = request.POST['about']
+        try:
+            Feedback.objects.create(firstname=f, lastname=ln, mobile=c, gender=g, mail=e, about=a,
+                                   creationdate=date.today())
+            error = "no"
+        except:
+            error = "yes"
+    d = {'error': error}
+    return render(request, 'add_feedback.html',d)
 
 
 def user_profile(request):
@@ -360,20 +408,13 @@ def payment_done(request):
             try:
                 # Fetch payment details using the payment ID
                 payment = client.payment.fetch(payment_id)
-                # Assuming you have a model for orders, you can update the order status here
-                # For example:
-                # order = Order.objects.get(payment_id=payment_id)
-                # order.status = 'Paid'
-                # order.save()
-
-                # Add code to create orders for the user based on the payment
                 user = request.user
 
                 customer = CustomerLogin.objects.get(user=user)
                 cart = CartItem.objects.filter(user=user)
                 for c in cart:
                     OrderPlaced(user=user, customer=customer, product=c.product,
-                                quantity=c.quantity, payment_id=payment_id,ordered_date=date.today()).save()
+                                quantity=c.quantity, payment_id=payment_id, ordered_date=date.today()).save()
                     c.delete()
                 return redirect("orders")
             except Exception as e:
@@ -382,8 +423,18 @@ def payment_done(request):
         else:
             # Handle if payment ID is not provided
             return HttpResponse("Payment ID is missing.")
+    elif request.method == 'POST':
+        # Handle Cash on Delivery payment
+        user = request.user
+        customer = CustomerLogin.objects.get(user=user)
+        cart = CartItem.objects.filter(user=user)
+        for c in cart:
+            OrderPlaced(user=user, customer=customer, product=c.product,
+                        quantity=c.quantity, payment_id="Cash on Delivery", ordered_date=date.today()).save()
+            c.delete()
+        return redirect("orders")
     else:
-        # Handle if request method is not GET
+        # Handle if request method is not GET or POST
         return HttpResponse("Invalid request method.")
 
 
@@ -402,18 +453,18 @@ class ProductDetail(View):
         return render(request, 'productdetail.html', {'product': product, 'totalitem': totalitem})
 
 
+class AdminProductDetail(View):
+    def get(self, request, pk):
+        totalitem = 0
+        p = Product.objects.get(pk=pk)
+        return render(request, 'admin_eye.html', {'product': p, 'totalitem': totalitem})
+
+
 class UserProductDetail(View):
     def get(self, request, pk):
         totalitem = 0
         product = Product.objects.get(pk=pk)
         return render(request, 'user_product_detail.html', {'product': product, 'totalitem': totalitem})
-
-
-def swh(request, data=None):
-    totalitem = 0
-    if data == None:
-        swh = Product.objects.filter(category='swh')
-    return render(request, 'solar_water_heater.html', {'swh': swh, 'totalitem': totalitem})
 
 
 def swh(request, data=None):
@@ -572,9 +623,37 @@ def view_cart(request):
     total_price = price + shipping
     return render(request, 'cart.html', {'cart_items': cart_items, 'price': price, 'total_price': total_price})
 
+
+def download_invoice(request, order_id):
+    # Fetch order information from the database
+    order = OrderPlaced.objects.get(id=order_id)
+    total_amount = order.product.price * order.quantity
+
+    # Generate invoice content (in this example, PDF format)
+    response = HttpResponse(content_type='application/pdf')
+    response['Content-Disposition'] = f'attachment; filename="invoice_{slugify(order.id)}.pdf"'
+
+    # Create PDF document
+    p = canvas.Canvas(response)
+    p.drawString(100, 800, f'Invoice for Order #{order.id}')
+    p.drawString(100, 780, f'Customer Name: {order.customer.user.username}')
+    p.drawString(100, 760, f'Product: {order.product.name}')
+    p.drawString(100, 740, f'Quantity: {order.quantity}')
+    p.drawString(100, 720, f'Price per unit: {order.product.price}')  # Assuming price is stored in the Product model
+    p.drawString(100, 700, f'Total Amount: {total_amount}')
+    p.drawString(100, 680, f'Payment ID: {order.payment_id}')
+    p.drawString(100, 660, f'Ordered Date: {order.ordered_date}')
+    # Add more information as needed
+
+    # Close PDF document
+    p.showPage()
+    p.save()
+
+    return response
+
 # def generate_pdf(request):
 #     response = HttpResponse(content_type='application/pdf')
-#     response['Content-Disposition'] = 'attachment; filename="product_report.pdf"'
+#     response['Content-Disposition'] = 'attachment; filename="Bill_Report.pdf"'
 #
 #     # Fetch all products from the database
 #     products = Product.objects.all()

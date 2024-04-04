@@ -17,3 +17,4 @@ admin.site.register(CartItem)
 
 admin.site.register(OrderPlaced)
 
+admin.site.register(Feedback)

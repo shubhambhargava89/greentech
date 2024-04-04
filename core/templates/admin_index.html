@@ -71,13 +71,18 @@
         </div>
 
         <div class="card">
-            <h4><i class="icon fas fa-box"></i> <a href="">Total Products</a></h4>
+            <h4><i class="icon fas fa-box"></i> <a href="{% url 'admin_view_product' %}">Total Products</a></h4>
             <p>{{ pcount }}</p>
         </div>
 
         <div class="card">
             <h4><i class="icon fas fa-shopping-cart"></i> <a href="{% url 'admin_view_order' %}">Total Orders</a></h4>
-            <p>{{ scount }}</p>
+            <p>{{ ocount }}</p>
+        </div>
+
+     <div class="card">
+            <h4><i class="icon fa fa-comments-o"></i> <a href="{% url 'view_feedback' %}">Total Feedbacks</a></h4>
+            <p>{{ fcount }}</p>
         </div>
     </div>
 <br><br>

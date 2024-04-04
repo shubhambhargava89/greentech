@@ -1,0 +1,129 @@
+{% extends 'admin_home.html' %}
+{% load static %}
+
+{% block title %}Product Detail{% endblock title %}
+
+{% block custom_css %}
+    <!-- Add any custom CSS specific to the product detail page -->
+    <style>
+        /* Custom CSS for product detail page */
+        .product-detail-container {
+            border: 1px solid #e0e0e0;
+            border-radius: 10px;
+            background-color: #f9f9f9;
+            box-shadow: 0px 0px 15px 0px rgba(0,0,0,0.1);
+            padding: 30px;
+        }
+
+        .product-image {
+            max-width: 100%;
+            border-radius: 10px;
+            box-shadow: 0px 0px 15px 0px rgba(0,0,0,0.1);
+            margin-bottom: 20px;
+        }
+
+        .product-details {
+            margin-top: 20px;
+        }
+
+        .product-name {
+            font-size: 28px;
+            margin-bottom: 10px;
+            margin-top: 0; /* Added margin-top to separate it from the container edge */
+            color: #333;
+            font-weight: bold;
+        }
+
+        .product-price {
+            font-size: 22px;
+            color: #007bff;
+            margin-bottom: 10px; /* Added margin-bottom for spacing */
+            font-weight: bold;
+        }
+
+        .product-description {
+            font-size: 16px;
+            color: #555;
+            margin-bottom: 20px;
+        }
+
+        .btn-container {
+            margin-top: 20px;
+        }
+
+        .add-to-cart-btn,
+        .buy-now-btn {
+            padding: 12px 24px;
+            border-radius: 25px;
+            font-size: 18px;
+            font-weight: bold;
+            text-transform: uppercase;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            outline: none;
+            display: inline-block;
+        }
+
+        .add-to-cart-btn {
+            background-color: #007bff;
+            border: 2px solid #007bff;
+            color: #fff;
+            margin-right: 10px;
+        }
+
+        .add-to-cart-btn:hover {
+            background-color: #0056b3;
+            border-color: #0056b3;
+        }
+
+        .buy-now-btn {
+            background-color: #28a745;
+            border: 2px solid #28a745;
+            color: #fff;
+        }
+
+        .buy-now-btn:hover {
+            background-color: #218838;
+            border-color: #218838;
+        }
+    </style>
+{% endblock custom_css %}
+
+
+{% block main-content %}
+    <hr>
+    <!-- Product Detail Section -->
+    <div class="container my-5 product-detail-container">
+        <div class="row">
+            <div class="col-lg-6">
+                <img src="{{ product.product_image.url }}" alt="{{ product.name }}" class="img-fluid product-image">
+            </div>
+            <div class="col-lg-6 product-details">
+                <h2>{{ product.name }}</h2>
+                <p>Price: Rs. {{ product.price }}</p>
+                <p>Description: {{ product.description }}</p>
+                <!-- Add any other product details you want to display -->
+                <!-- You can customize this section as per your requirements -->
+
+                <div class="btn-container">
+                   <a href="{% url 'admin_view_product' %}" class="btn btn-success buy-now-btn">Back to Product Dashboard</a>
+                </div>
+            </div>
+        </div>
+    </div>
+    <hr>
+{% endblock main-content %}
+
+{% block custom_js %}
+    <!-- Add any custom JavaScript -->
+    <script>
+        $(document).ready(function() {
+            // Add to Cart button click event
+            $('.add-to-cart-btn').click(function() {
+                var productId = $(this).data('product-id');
+                // Implement your add to cart logic here, such as sending an AJAX request to the server
+                console.log('Add to Cart clicked for product ID: ' + productId);
+            });
+        });
+    </script>
+{% endblock custom_js %}
