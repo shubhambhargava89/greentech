@@ -6,3 +6,4 @@
 2. pip install razorpay
 3. pip install setuptools
 4. pip install reportlab
+5. pip install weasyprint
